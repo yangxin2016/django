@@ -6,35 +6,54 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import *
 from django.http import Http404
+import json
+
 
 logging.basicConfig(level=logging.DEBUG) #  设置日志级别，只有高于debug级别的日志能输出
 
 
 #  用户模块主页
 @csrf_exempt  #此注解保证post请求通过CRSF验证
-def index(request):
-    return render(request, 'users/index.html')
+def user(request):
+    return render(request, 'users/user.html')
 
 totalPage = 0
 
-
 #  列表页
 @csrf_exempt
-def list(request):
-    page = int(request.POST.get('page'))
+def getUserList(request):
+    params = json.loads(request.body)
+    page = params.get('pageNumber')
     if page is None:
         page = 1
-    pageSize = request.POST.get('pageSize')
+    pageSize = params['pageSize']
     if pageSize is None:
         pageSize = 1
+
+    keyword = ''
+    if keyword in params:
+        keyword = params['keyword']
+
+    sort = 'create_time'
+    if sort in params:
+        sort = params['sortOrder']
+
     logging.info("page:%d,pageSize:%d", page, int(pageSize))
-    all_user_list = User.objects.order_by('update_time').all()
-    paginator = Paginator(all_user_list, int(pageSize))
-    try:
-        user_list = paginator.page(page)
-    except:
-        user_list = []
-    return render(request, 'users/user_list.html', {'user_list': user_list, "totalCount": paginator.count, 'page': paginator.page(page), 'currentPage': int(page)})
+    all_user_list = User.objects.filter(user_name__icontains=keyword).order_by(sort)
+    paginator = Paginator(all_user_list, pageSize)
+    rows = []
+    for i in paginator.page(page):
+        user={}
+        user['id'] = i.id
+        user['user_name'] = i.user_name
+        user['age'] = i.age
+        user['sex'] = i.sex
+        user['address'] = i.address
+        user['create_time'] = i.create_time
+        user['update_time'] = i.update_time
+        rows.append(user)
+    resp = {'status': '0000', 'content': {'total': paginator.count, 'rows': rows}}
+    return JsonResponse(resp)
 
 
 #  跳转编辑页

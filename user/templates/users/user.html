@@ -1,0 +1,82 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/user.css' %}">
+<script src="{% static 'js/user.js' %}"></script>
+<div class="panel-body" style="padding-bottom:0px;">
+    <div class="panel panel-default">
+            <div class="panel-heading">查询条件</div>
+            <div class="panel-body">
+                <form id="formSearch" class="form-horizontal">
+                    <div class="form-group" style="margin-top:15px">
+                        <label class="control-label col-sm-1" for="keyword">姓名</label>
+                        <div class="col-sm-3">
+                            <input value="" id="keyword" class="form-control" />
+                        </div>
+                        <div class="col-sm-4" style="text-align:left;">
+                            <button type="button" style="margin-left:50px" id="searchBtn" class="btn btn-primary">查询</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+    </div>
+    <div id="toolbar" class="btn-group" style="margin-bottom: 10px;">
+            <button id="btn_add" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+            </button>
+            <button id="btn_batch_delete" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>批量删除
+            </button>
+    </div>
+    <table id="tb_users"></table>
+</div>
+
+ <div id="addFormDiv" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" style="display: inline">新增用户</h4>
+                </div>
+                <div id="addForm" class="modal-body">
+                    <form class="form-horizontal" id="addForm">
+                        <input type="text" id="id" class="form-control" name="id" style="display: none"/>
+                        <div class="form-group">
+                            <label for="idCardNoList" class="col-sm-3 control-label">姓名</label>
+                            <div class="col-sm-7">
+                                <input type="text" id="user_name" class="form-control" name="user_name"/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="form-remark" class="col-sm-3 control-label">年龄</label>
+                            <div class="col-sm-7">
+                                <input id="age" type="text" name="age" class="form-control" placeholder="年龄" />
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="addVendor" class="col-sm-3 control-label">性别</label>
+                            <div class="col-sm-7">
+                                <select id="sex" name="sex" class="form-control">
+                                    <option value="m">男</option>
+                                    <option value="w">女</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label for="addBizType" class="col-sm-3 control-label">地址</label>
+                            <div class="col-sm-7">
+                                <input id="address" type="text" name="address" class="form-control" placeholder="地址" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3 col-sm-9">
+                                <button id="submit" type="button" class="btn btn-default">提交</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
