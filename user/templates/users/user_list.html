@@ -1,0 +1,86 @@
+
+<div style="width: 500px;margin: 50px auto">
+
+    {% if user_list %}
+        <table class="user-tb">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>名称</th>
+                    <th>性别</th>
+                    <th>年龄</th>
+                    <th>地址</th>
+                    <th>创建时间</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_list %}
+                <tr>
+                    <td>
+                        {{ user.id }}
+                    </td>
+                    <td>
+                        {{ user.user_name }}
+                    </td>
+                    <td>
+                        {{ user.get_sex_display }}
+                    </td>
+                    <td>
+                        {{ user.age }}
+                    </td>
+                    <td>
+                        {{ user.address }}
+                    </td>
+                    <td>
+                        {{ user.create_time }}
+                    </td>
+                    <td>
+                        <a onclick="update({{ user.id }})" href="javascript:void(0)">编辑</a>
+                        <a onclick="del({{ user.id }})" href="javascript:void(0)">删除</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>无查询记录.</p>
+    {% endif %}
+    <div style="height: 30px;">
+{#        <ul style="list-style: none" class="page-ul">#}
+{#            {% for page in pageList %}#}
+{#                {% if currentPage == page %}#}
+{#                    <li style="background: darkgray">{{ page }}</li>#}
+{#                {% else %}#}
+{#                    <li onclick="toPage({{ page }})">{{ page }}</li>#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#        </ul>#}
+        <p>
+          {% if page.has_previous %}
+                <a onclick="toPage({{ page.previous_page_number }})"href="javascript:void(0)">上一页</a>
+            {% endif %}
+                <span>{{ currentPage }}</span>
+            {% if page.has_next %}
+                <a onclick="toPage({{ page.next_page_number }})" href="javascript:void(0)">下一页</a>
+            {% endif %}
+        </p>
+        <p style="float: right">总条数：{{ totalCount }}</p>
+    </div>
+    <div style="margin: 20px auto">
+        <button  onclick="add()" type="button">新增</button>
+    </div>
+</div>
+<script>
+    function toPage(page){
+         $("#user_list").load("/user/list",{'page':page},function () {})
+    }
+    function update(id){
+         $("#user_list").load("/user/update/",{'id':id},function () {})
+    }
+   function del(id){
+         $.get("/user/delete/"+id,{},function (data) {})
+    }
+    function add(id){
+          $("#user_list").load("/user/add/",{},function (data) {})
+    }
+</script>

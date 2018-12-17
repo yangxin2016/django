@@ -1,0 +1,16 @@
+.user-tb{
+    table-layout: fixed;
+    table-border-color-dark: #5b80b2;
+}
+.user-tb>tbody>tr>td{
+    text-align: center;
+}
+
+.page-ul>li{
+    float: left;
+    width: 25px;
+    height: 25px;
+    border: 1px solid gray;
+    text-align: center;
+    margin: 0 10px;
+}
