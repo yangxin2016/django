@@ -19,7 +19,7 @@ def user(request):
 
 totalPage = 0
 
-#  列表页
+#  列表
 @csrf_exempt
 def getUserList(request):
     params = json.loads(request.body)
@@ -31,15 +31,11 @@ def getUserList(request):
         pageSize = 1
 
     keyword = ''
-    if keyword in params:
+    if 'keyword' in params:
         keyword = params['keyword']
 
-    sort = 'create_time'
-    if sort in params:
-        sort = params['sortOrder']
-
     logging.info("page:%d,pageSize:%d", page, int(pageSize))
-    all_user_list = User.objects.filter(user_name__icontains=keyword).order_by(sort)
+    all_user_list = User.objects.filter(user_name__icontains=keyword)
     paginator = Paginator(all_user_list, pageSize)
     rows = []
     for i in paginator.page(page):
@@ -64,12 +60,6 @@ def to_update(request):
     except user.DoesNotExist:
         raise Http404("用户不存在")
     return render(request, 'users/update.html', {'user': user})
-
-
-#  跳转新增页
-@csrf_exempt
-def to_add(request):
-    return render(request, 'users/add.html')
 
 
 #  保存新增或修改结果
@@ -105,3 +95,21 @@ def save(request):
     except Exception as e:
         resp = {'status': '0001', 'respMsg': '保存失败，原因：'+str(e)}
     return JsonResponse(resp)
+
+
+@csrf_exempt
+def delete(request):
+    ids = request.POST.get('ids').split(',')
+    print(ids)
+    status = '0000'
+    msg = '删除成功'
+    for id in ids:
+        try:
+            user = User.objects.get(pk=id)
+            if user is not None:
+                user.delete()
+        except Exception as e:
+            status = '0001'
+            msg = '删除失败'
+    res = {'msg': msg, 'status': status}
+    return JsonResponse(res)

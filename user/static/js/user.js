@@ -97,9 +97,16 @@ $("#tb_users").bootstrapTable({
                         },
                         'click .delete': function (e, value, row, index) {
                             e.preventDefault();
-                            del = 'simple';
-                            deleteRow = row;
-                            // $('#delcfmModel').modal();
+                            bootbox.confirm("确认删除？",function (res) {
+                                if(res){
+                                    ids = row.id
+                                   $.post('/user/delete',{'ids':ids},function (data) {
+                                       bootbox.alert(data.msg);
+                                       refreshTable()
+                                   })
+                                }
+                            })
+
                         }
                     },
                     formatter:function(value, row, index){
@@ -123,3 +130,53 @@ $("#btn_add").click(function () {
     $("#addFormDiv  .modal-title").html("新增用户");
     $("#addFormDiv").modal();
 })
+
+function refreshTable() {
+    let keyword = $('#keyword').val();
+    if(keyword){
+        queryData.keyword = keyword;
+    }
+
+    $("#tb_users").bootstrapTable('refresh', {
+        method: 'post',
+        url : '/user/getUserList',
+        pageNumber: 1
+    });
+}
+//名字模糊查询
+$("#searchBtn").click(function () {
+    refreshTable()
+})
+
+$("#submit").click(function(){
+    let data={}
+    let id = $("#id").val();
+    if(id){
+        data.id=id;
+    }
+    let user_name = $("#user_name").val()
+    if(user_name){
+        data.user_name = user_name;
+    }
+    let sex = $("#sex").val();
+    if(sex){
+        data.sex= sex;
+    }
+    let age = $("#age").val();
+    if(age){
+        data.age= age;
+    }
+    let address = $("#address").val();
+    if(address){
+        data.address= address;
+    }
+    $.post("/user/save",data,function (data) {
+            alert(data.respMsg);
+            if(data.status=="0000"){
+                $("#addFormDiv").modal("hide");
+                refreshTable()
+            }else {
+                return false
+            }
+        })
+    })

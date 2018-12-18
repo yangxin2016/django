@@ -18,7 +18,9 @@ from django.urls import include, path
 from . import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
-    path('', views.main, name='main'),
+    path('login', views.login, name='login'),
+    path('doLogin', views.doLogin, name='doLogin'),
+    path('home', views.home, name='home'),
     path('index/', views.index, name='index'),  # 欢迎页
     path('user/', include('user.urls'))
 ]

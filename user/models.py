@@ -19,7 +19,7 @@ class User(models.Model):
 
     class Meta:
         db_table = "t_user"
-        ordering = ('-create_time',)
+        ordering = ('-update_time',)
 
     def __str__(self):
         return self.id, self.user_name, self.age, self.sex, self.create_time, self.address
