@@ -1,7 +1,7 @@
 from django.shortcuts import HttpResponseRedirect
 from django.utils.deprecation import MiddlewareMixin
 
-url_filter_paths = ['/login','/doLogin']
+url_filter_paths = ['/login','/doLogin','/logout']
 
 '''登录拦截器'''
 class Interceptor(MiddlewareMixin):

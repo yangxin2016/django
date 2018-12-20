@@ -15,7 +15,7 @@ for i in range(1, 10):
 '''主页'''
 def home(request):
     menus = [{'name': '主页', 'url': '/index/'}, {'name': '用户管理', 'url': '/user/'}]
-    return render(request, 'main.html', {'menus': menus})
+    return render(request, 'main2.html', {'menus': menus})
 
 
 '''登录页'''
@@ -27,7 +27,7 @@ def login(request):
         sessionUser.printAdmin()
         return redirect("/home")
     else:
-        return render(request, 'login.html')
+        return render(request, 'login2.html')
 
 
 '''提交登录'''
@@ -52,3 +52,10 @@ def doLogin(request):
 def index(request):
     respMsg = "欢迎进入主页"
     return render(request, 'index.html', {'respMsg': respMsg})
+
+
+# 注销登录
+def logout(request):
+    if request.session.get('sessionUser', None) is not None:
+        request.session['sessionUser'] = None
+    return redirect("/login")

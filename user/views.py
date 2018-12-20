@@ -52,16 +52,6 @@ def getUserList(request):
     return JsonResponse(resp)
 
 
-#  跳转编辑页
-@csrf_exempt
-def to_update(request):
-    try:
-        user = User.objects.get(pk=request.POST.get('id'))
-    except user.DoesNotExist:
-        raise Http404("用户不存在")
-    return render(request, 'users/update.html', {'user': user})
-
-
 #  保存新增或修改结果
 @csrf_exempt
 def save(request):
@@ -96,7 +86,7 @@ def save(request):
         resp = {'status': '0001', 'respMsg': '保存失败，原因：'+str(e)}
     return JsonResponse(resp)
 
-
+#删除
 @csrf_exempt
 def delete(request):
     ids = request.POST.get('ids').split(',')
