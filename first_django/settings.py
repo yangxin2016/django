@@ -130,3 +130,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'first_django', 'static'),
     os.path.join(BASE_DIR, 'user', 'static')
     ]
+
+
+# session
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_COOKIE_AGE = 1200

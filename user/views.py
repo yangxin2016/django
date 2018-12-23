@@ -95,9 +95,10 @@ def delete(request):
     msg = '删除成功'
     for id in ids:
         try:
-            user = User.objects.get(pk=id)
-            if user is not None:
-                user.delete()
+            if id != '':
+                user = User.objects.get(pk=id)
+                if user is not None:
+                    user.delete()
         except Exception as e:
             status = '0001'
             msg = '删除失败'

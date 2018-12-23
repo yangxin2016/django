@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Realm - Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Bluth Company">
+    <link rel="shortcut icon" href="assets/ico/favicon.html">
+    <link href="{% static 'first_django/assets/css/bootstrap.css' %}" rel="stylesheet">
+    <link href="{% static 'first_django/assets/css/theme.css' %}" rel="stylesheet">
+    <link href="{% static 'first_django/assets/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'first_django/assets/css/alertify.css' %}" rel="stylesheet">
+    <link href="{% static 'first_django/css/home.css' %}" rel="stylesheet">
+{#    <link href="{% static 'first_django/plugin/bootstrap/css/bootstrap-table.min.css' %}" rel="stylesheet">#}
+{#    <link href="{% static 'first_django/plugin/bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet">#}
+
+    <link rel="Favicon Icon" href="favicon.ico">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+{#    <script src="{% static 'first_django/plugin/jquery/jquery.min.js' %}" type="text/javascript"></script>#}
+{#    <script src="{% static 'first_django/plugin/bootstrap/js/bootstrap.min.js' %}" type="text/javascript"></script>#}
+{#    <script src="{% static 'first_django/plugin/bootstrap/js/bootstrap-table.min.js' %}"></script>#}
+{#    <script src="{% static 'first_django/plugin/bootstrap/js/bootstrap-table-zh-CN.min.js' %}"></script>#}
+{#    <script src="{% static 'first_django/plugin/bootbox.min.js' %}"></script>#}
+{#    <link href="{% static 'first_django/plugin/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />#}
+{#    <link href="{% static 'first_django/plugin/bootstrap/css/bootstrap-table.min.css' %}" rel="stylesheet" />#}
+{#    <link href="{% static 'first_django/plugin/bootstrap/css/bootstrap-theme.min.css' %}" rel="stylesheet" />#}
+
+
+  </head>
+  <body>
+    <div id="wrap">
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <div class="logo">
+            <img src="{% static 'first_django/assets/img/logo.png' %}" alt="Realm Admin Template">
+          </div>
+           <a class="btn btn-navbar visible-phone" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+           <a class="btn btn-navbar slide_menu_left visible-tablet">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+
+          <div class="top-menu visible-desktop">
+     <!--
+            <ul class="pull-left">
+              <li><a id="messages" data-notification="2" href="#"><i class="icon-envelope"></i> Messages</a></li>
+              <li><a id="notifications" data-notification="3" href="#"><i class="icon-globe"></i> Notifications</a></li>
+            </ul>
+     -->
+            <ul class="pull-right">
+              <li><a href="javascript:void(0)" onclick="logout()" title="退出"><i class="icon-off"></i></a></li>
+            </ul>
+          </div>
+
+          <div class="top-menu visible-phone visible-tablet">
+            <ul class="pull-right">
+              <li><a title="link to View all Messages page, no popover in phone view or tablet" href="#"><i class="icon-envelope"></i></a></li>
+              <li><a title="link to View all Notifications page, no popover in phone view or tablet" href="#"><i class="icon-globe"></i></a></li>
+              <li><a href="login.html"><i class="icon-off"></i></a></li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+
+      <!-- Side menu -->
+      <div class="sidebar-nav nav-collapse collapse">
+        <div class="user_side clearfix">
+          <img src="{% static 'first_django/assets/img/odinn.jpg' %}" alt="Odinn god of Thunder">
+          <h5>Odinn</h5>
+        </div>
+        <div class="accordion" id="accordion2">
+            {% for menu in menus %}
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="menu accordion-toggle b_C3F7A7 collapsed"
+                     {% if menu.children is not None %}
+                        data-toggle="collapse"
+                     {% endif %}
+                     data-parent="#accordion2"
+                     {% if menu.children is not None %}
+                        href="#collapse{{ menu.id }}"
+                    {% else %}
+                        url="{{ menu.url }}"
+                    {% endif %} }>
+                      <i class="{{ menu.icon }}"></i>
+                      <span>{{ menu.name }}</span>
+                  </a>
+                </div>
+                 {% if menu.children is not None %}
+                     <div id="collapse{{ menu.id }}" class="accordion-body collapse">
+                         <div class="accordion-inner">
+                              {% for childMenu in menu.children %}
+                                  <a class="menu accordion-toggle" href="javascript:void(0)" url="{{ childMenu.url }}">
+                                      <i class="{{ childMenu.icon }}"></i>
+                                      <span>{{ childMenu.name }}</span>
+                                  </a>
+                              {% endfor %}
+                          </div>
+                     </div>
+                 {% endif %}
+              </div>
+            {% endfor %}
+
+
+
+{#          <div class="accordion-group">#}
+{#            <div class="accordion-heading">#}
+{#              <a class="accordion-toggle b_9FDDF6 collapsed" data-toggle="collapse" data-parent="#accordion2" href="#collapse2"><i class="icon-reorder"></i> <span>Components</span></a>#}
+{#            </div>#}
+{#            <div id="collapse2" class="accordion-body collapse">#}
+{#              <div class="accordion-inner">#}
+{#                <a class="accordion-toggle" href="notifications.html"><i class="icon-rss"></i> Notifications</a>#}
+{#                <a class="accordion-toggle" href="calendar.html"><i class="icon-calendar"></i> Calendar</a>#}
+{#                <a class="accordion-toggle" href="gallery.html"><i class="icon-picture"></i> Gallery</a>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="accordion-group">#}
+{#            <div class="accordion-heading">#}
+{#              <a class="accordion-toggle b_F6F1A2" href="tasks.html"><i class="icon-tasks"></i> <span>Tasks</span></a>#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="accordion-group">#}
+{#            <div class="accordion-heading">#}
+{#              <a class="accordion-toggle b_C1F8A9" href="analytics.html"><i class="icon-bar-chart"></i> <span>Analytics</span></a>#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="accordion-group">#}
+{#            <div class="accordion-heading">#}
+{#              <a class="accordion-toggle b_9FDDF6" href="tickets.html"><i class="icon-bullhorn"></i> <span>Support Tickets</span></a>#}
+{#            </div>#}
+{#          </div>#}
+{#          <div class="accordion-group">#}
+{#            <div class="accordion-heading">#}
+{#              <a class="accordion-toggle b_F5C294" href="users.html"><i class="icon-user"></i> <span>Users</span></a>#}
+{#            </div>#}
+{#          </div>#}
+        </div>
+      </div>
+      <!-- /Side menu -->
+
+      <!-- Main window -->
+      <div class="main_container" id="main_container">
+          <div class="row-fluid">  </div>
+        <div class="row-fluid" id="row-fluid">
+
+        </div>
+      </div>
+      <!-- /Main window -->
+
+    </div><!--/.fluid-container-->
+    </div><!-- wrap ends-->
+
+
+    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery-ui.min.js' %}"></script>
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/raphael-min.js' %}"></script>#}
+    <script type="text/javascript" src="{% static 'first_django/assets/js/bootstrap.js' %}"></script>
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/sparkline.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/morris.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery.dataTables.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery.masonry.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery.imagesloaded.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery.facybox.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery.alertify.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery.knob.js' %}"></script>#}
+{#    <script type='text/javascript' src="{% static 'first_django/assets/js/fullcalendar.min.js' %}"></script>#}
+{#    <script type='text/javascript' src="{% static 'first_django/assets/js/jquery.gritter.min.js' %}"></script>#}
+{#    <script type="text/javascript" src="{% static 'first_django/assets/js/realm.js' %}"></script>#}
+    <script type="text/javascript" src="{% static 'first_django/assets/js/jquery.slimscroll.min.js' %}"></script>
+    <script src="{% static 'first_django/plugin/bootstrap/js/bootstrap-table.min.js' %}"></script>
+    <script src="{% static 'first_django/plugin/bootstrap/js/bootstrap-table-zh-CN.min.js' %}"></script>
+    <script src="{% static 'first_django/plugin/bootbox.min.js' %}"></script>
+
+  <script>
+        function logout() {
+            window.location.href="/logout";
+        }
+        $(function () {
+            $(".menu").click(function () {
+                url = $(this).attr("url");
+                console.log(url)
+                if(url){
+                    $("#main_container #row-fluid").load(url,{},function () {
+
+                    })
+                }
+            })
+            $(".menu:first").click();
+        })
+  </script>
+  </body>
+</html>

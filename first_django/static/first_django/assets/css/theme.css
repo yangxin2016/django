@@ -382,7 +382,7 @@ table.table thead .sorting_desc_disabled { background: url('../img/sort_desc_dis
 .user_side{
   padding: 15px 15px;
   margin: 0;
-  background-color: #3D3E43;
+  background-color: #503353;
 }
 .user_side img{
   float:left;
@@ -523,7 +523,7 @@ table.table thead .sorting_desc_disabled { background: url('../img/sort_desc_dis
   border-left: 2px solid #F5C294;
 }
 .accordion-heading{
-  background: #292A2F;
+  background: #632f68;
 }
 .accordion-heading a{
   border-left: 2px solid #292A2F;
@@ -541,7 +541,7 @@ table.table thead .sorting_desc_disabled { background: url('../img/sort_desc_dis
   border-radius: 0;
 }
 .accordion-inner{
-  background-color: #3D3E43;
+  background-color: #521e57;
   border: none;
   padding: 9px 0;
 }

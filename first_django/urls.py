@@ -18,11 +18,12 @@ from django.urls import include, path
 from . import views
 urlpatterns = [
     # path('admin/', admin.site.urls),
+    path('', views.to_home, name='to_home'),
     path('login', views.login, name='login'),
     path('logout', views.logout, name='logout'),
     path('doLogin', views.doLogin, name='doLogin'),
     path('home', views.home, name='home'),
-    # path('index/', views.index, name='index'),  # 欢迎页
+    path('index/', views.index, name='index'),  # 欢迎页
     path('user/', include('user.urls'))  # 用户模块
 
 ]

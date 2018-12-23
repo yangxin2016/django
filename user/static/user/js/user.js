@@ -126,16 +126,40 @@ $("#tb_users").bootstrapTable({
             alert('请求失败');
         }
     });
+
+// 打开添加modal
 $("#btn_add").click(function () {
     $("#addFormDiv  .modal-title").html("新增用户");
     $("#addFormDiv").modal();
 })
 
+
+//批量删除
+$("#btn_batch_delete").click(function () {
+    let rows = $("#tb_users").bootstrapTable("getSelections");
+    if(rows.length==0){
+        bootbox.alert("请选择要删除的记录");
+        return;
+    }
+    bootbox.confirm("确认删除？",function (res) {
+        if(res){
+            let ids = "";
+            for(let i=0;i<rows.length;i++){
+                ids += rows[i]['id'] + ",";
+            }
+            $.post('/user/delete',
+                {'ids':ids},
+                function (data) {
+                   bootbox.alert(data.msg);
+                   refreshTable()
+            })
+        }
+    })
+})
+
 function refreshTable() {
     let keyword = $('#keyword').val();
-    if(keyword){
-        queryData.keyword = keyword;
-    }
+    queryData.keyword = keyword;
 
     $("#tb_users").bootstrapTable('refresh', {
         method: 'post',
@@ -171,7 +195,7 @@ $("#submit").click(function(){
         data.address= address;
     }
     $.post("/user/save",data,function (data) {
-            alert(data.respMsg);
+            bootbox.alert(data.respMsg);
             if(data.status=="0000"){
                 $("#addFormDiv").modal("hide");
                 refreshTable()

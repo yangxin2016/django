@@ -1,32 +1,43 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/user.css' %}">
-<script src="{% static 'user/user/js/user.js' %}"></script>
-<div class="panel-body" style="padding-bottom:0px;">
-    <div class="panel panel-default">
-            <div class="panel-heading">查询条件</div>
-            <div class="panel-body">
-                <form id="formSearch" class="form-horizontal">
-                    <div class="form-group" style="margin-top:15px">
-                        <label class="control-label col-sm-1" for="keyword">姓名</label>
-                        <div class="col-sm-3">
-                            <input value="" id="keyword" class="form-control" />
-                        </div>
-                        <div class="col-sm-4" style="text-align:left;">
-                            <button type="button" style="margin-left:50px" id="searchBtn" class="btn btn-primary">查询</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-    </div>
-    <div id="toolbar" class="btn-group" style="margin-bottom: 10px;">
-            <button id="btn_add" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
-            </button>
-            <button id="btn_batch_delete" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>批量删除
-            </button>
-    </div>
-    <table id="tb_users"></table>
+
+    <div class="widget widget-padding span12">
+        <div class="widget-header">
+              <i class="icon-group"></i>
+              <h5>用户列表</h5>
+        </div>
+        <div class="widget-body">
+              <div id="users_wrapper" class="dataTables_wrapper form-inline" role="grid">
+                  <div class="row-fluid">
+                      <div class="span6 btn-group">
+                          <button id="btn_add" type="button" class="btn btn-default">
+                              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>新增
+                          </button>
+                          <button id="btn_batch_delete" type="button" class="btn btn-default">
+                              <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>批量删除
+                          </button>
+                      </div>
+                      <div class="span6">
+                          <div class="dataTables_filter" id="users_filter">
+                              <label>姓名:
+                                  <input type="text" aria-controls="users" id="keyword">
+                              </label>
+                              <button class="btn btn-primary" type="button" id="searchBtn">查询</button>
+                          </div>
+                      </div>
+                  </div>
+                  <table id="tb_users" class="table table-striped table-bordered dataTable"></table>
+{#                  <table id="users" class="table table-striped table-bordered dataTable" aria-describedby="users_info">#}
+{#                    <thead>#}
+{#                      <tr role="row"><th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="users" rowspan="1" colspan="1" aria-sort="ascending" aria-label="User: activate to sort column descending" style="width: 172px;">User</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="users" rowspan="1" colspan="1" aria-label="Group: activate to sort column ascending" style="width: 136px;">Group</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="users" rowspan="1" colspan="1" aria-label="Registered: activate to sort column ascending" style="width: 221px;">Registered</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="users" rowspan="1" colspan="1" aria-label="Status: activate to sort column ascending" style="width: 163px;">Status</th><th class="sorting" role="columnheader" tabindex="0" aria-controls="users" rowspan="1" colspan="1" aria-label=": activate to sort column ascending" style="width: 204px;"></th></tr>#}
+{#                    </thead>#}
+{##}
+{#              </table>#}
+{#                  <div class="row-fluid"><div class="span6"><div class="dataTables_info" id="users_info">Showing 1 to 8 of 8 entries</div></div><div class="span6"><div class="dataTables_paginate paging_bootstrap pagination"><ul><li class="prev disabled"><a href="#">← Previous</a></li><li class="active"><a href="#">1</a></li><li class="next disabled"><a href="#">Next → </a></li></ul></div></div></div></div>#}
+            </div> <!-- /widget-body -->
+        </div>
+
+
+
 </div>
 
  <div id="addFormDiv" class="modal fade" role="dialog">
@@ -39,44 +50,48 @@
                 <div id="addForm" class="modal-body">
                     <form class="form-horizontal" id="addForm">
                         <input type="text" id="id" class="form-control" name="id" style="display: none"/>
-                        <div class="form-group">
-                            <label for="idCardNoList" class="col-sm-3 control-label">姓名</label>
-                            <div class="col-sm-7">
-                                <input type="text" id="user_name" class="form-control" name="user_name"/>
+                        <div class="control-group">
+                            <label for="idCardNoList" class="control-label">姓名</label>
+                            <div class="controls">
+                                <input type="text" id="user_name" class="span8" name="user_name"/>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="form-remark" class="col-sm-3 control-label">年龄</label>
-                            <div class="col-sm-7">
-                                <input id="age" type="text" name="age" class="form-control" placeholder="年龄" />
+                        <div class="control-group">
+                            <label for="form-remark" class="control-label">年龄</label>
+                            <div class="controls">
+                                <input id="age" type="text" name="age" class="span8" placeholder="年龄" />
                             </div>
                         </div>
-                        <div class="form-group ">
-                            <label for="sex" class="col-sm-3 control-label">性别</label>
-                            <div class="col-sm-7">
-                                <select id="sex" name="sex" class="form-control">
+                        <div class="control-group ">
+                            <label for="sex" class="control-label">性别</label>
+                            <div class="controls">
+                                <select id="sex" name="sex" class="span8">
                                     <option value="m">男</option>
                                     <option value="w">女</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group ">
-                            <label for="address" class="col-sm-3 control-label">地址</label>
-                            <div class="col-sm-7">
-                                <input id="address" type="text" name="address" class="form-control" placeholder="地址" />
+                        <div class="control-group ">
+                            <label for="address" class="control-label">地址</label>
+                            <div class="controls">
+                                <input id="address" type="text" name="address" class="span8" placeholder="地址" />
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="control-group">
                             <div class="col-sm-offset-3 col-sm-9">
-                                <button id="submit" type="button" class="btn btn-default">提交</button>
+
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <button type="button" id="submit" class="btn btn-primary">提交</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
+
+<link rel="stylesheet" href="{% static 'user/css/user.css' %}">
+<script src="{% static 'user/js/user.js' %}"></script>

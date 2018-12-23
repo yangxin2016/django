@@ -2,42 +2,52 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
-from . import admin
+from . import admin,menu
 import json
 
-'''模拟用户'''
+# 模拟登录用户
 admins = []
 for i in range(1, 10):
     adminUser = admin.Admin("%s@qq.com" % i, 'password%d' % i, 'super')
     admins.append(adminUser)
 
 
-'''主页'''
+def to_home():
+    redirect("/home")
+
+
+# 主页
 def home(request):
-    menus = [{'name': '主页', 'url': '/index/'}, {'name': '用户管理', 'url': '/user/'}]
-    return render(request, 'main2.html', {'menus': menus})
+    menus = []
+    menu1 = menu.Menu(1, "主页", '/index/', None, "icon-home")
+    menu2 = menu.Menu(2, '系统管理', None,
+                      [menu.Menu(3, '用户管理', '/user/', None, "icon-user"),
+                       menu.Menu(4, '角色管理', '/role/', None, "icon-user-md")], "icon-cog")
+    menus.append(menu1)
+    menus.append(menu2)
+    return render(request, 'home.html', {'menus': menus})
 
 
-'''登录页'''
+# 登录页
 def login(request):
     if request.session.get('sessionUser', None) is not None:
-        '''json转字典'''
+        # json转字典
         admin_dic = json.loads(request.session['sessionUser'])
         sessionUser = admin.Admin(admin_dic['email'], None, admin_dic['role'])
         sessionUser.printAdmin()
         return redirect("/home")
     else:
-        return render(request, 'login2.html')
+        return render(request, 'login.html')
 
 
-'''提交登录'''
+# 提交登录
 @csrf_exempt
 def doLogin(request):
     email = request.POST.get("email")
     password = request.POST.get("password")
     for admin in admins:
         if admin.email == email and admin.password == password:
-            '''对象转字典再转json'''
+            # 对象转字典再转json
             request.session['sessionUser'] = json.dumps(admin.__dict__)
             status = '0000'
             msg = 'success'

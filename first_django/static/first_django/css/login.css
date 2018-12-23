@@ -112,7 +112,7 @@ input[type="text"]:hover, input[type="password"]:hover{
 .tlinks{text-indent:-9999px;height:0;line-height:0;font-size:0;overflow:hidden;}
 /*************************/
 .submit{
-	padding-top:2em;
+	padding-top:1em;
 }
 input[type="button"] {
 	margin-left: auto;
